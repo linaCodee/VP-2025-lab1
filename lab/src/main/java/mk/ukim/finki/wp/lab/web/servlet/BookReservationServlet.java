@@ -67,6 +67,8 @@ public class BookReservationServlet extends HttpServlet {
         context.setVariable("readerName",readerName);
         context.setVariable("title",bookTitle);
 
+        String bookIdStr=req.getParameter("bookId");
+
 
         springTemplateEngine.process("reservationConfirmation.html",context,resp.getWriter());
     }

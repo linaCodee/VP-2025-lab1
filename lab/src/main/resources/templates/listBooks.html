@@ -36,26 +36,60 @@
       th:text="'Title: ' + ${lastViewedBook.title} + ', Genre: ' + ${lastViewedBook.genre} + ', Rating: ' + ${lastViewedBook.averageRating}">
   </li>
 
-  <form th:action="@{/listBooks}" th:method="POST">
+  <form th:action="@{/books}" th:method="GET">
     <label>
-      <input type="text" name="title" placeholder="Search book by title">
+      <input type="text" th:value="${title}" name="title" placeholder="Search book by title">
     </label>
     <label>
-      <input type="text" name="rating" placeholder="Search book by rating">
+      <input type="text" th:value="${rating}" name="rating" placeholder="Search book by rating">
     </label>
     <br>
     <button type="submit">Search</button>
     <div class="msg" style="color: red;" th:if="${errorMessage}" th:text="${errorMessage}"></div>
   </form>
-  <form th:action="@{/bookReservation}" th:method="POST">
-    <h2>Choose a book:</h2>
+
+  <div th:each="book : ${books}" style="display:flex; justify-content: space-between; align-items: center; padding:10px; border:1px solid #ddd; border-radius:5px; margin:5px 0;" >
+    <div style="flex-grow: 1;">
+<!--      <p th:id="${book.getId()}" th:value="${book.title}" th:text="'Title: '+${book.getTitle()}+', Genre:' + ${book.getGenre()}+', Rating: '+${book.getAverageRating()}+', Author: '+${book.getAuthor().getName()}+' '+${book.getAuthor().getSurname()}+', Date: '+${book.getDateCreated()}"></p><br/>-->
+      <p th:id="${book.getId()}" th:value="${book.title}" th:text="'Title: '+${book.getTitle()}+', Genre:' + ${book.getGenre()}+', Rating: '+${book.getAverageRating()}+', Author: '+${book.getAuthor().getName()}+' '+${book.getAuthor().getSurname()}"></p><br/>
+    </div>
+    <div style="align-items: center; flex-shrink: 0; display: flex; gap: 5px">
+    <form th:action="@{/books/delete/{id}(id=${book.id})}" th:method="POST">
+      <button class="btn-danger" type="submit">Delete</button>
+    </form>
+<!--      <form th:action="@{/books/like/{id}(id=${book.id})}" th:method="post">-->
+<!--        <button type="submit">Like(<span th:text="${book.getLikes()}"></span>)</button>-->
+<!--      </form>-->
+    <th:block>
+      <a class="btn btn-sm btn-info edit-book" th:href="@{'/books/edit-form/{id}' (id=${book.id})}">
+        Edit
+      </a>
+    </th:block>
+  </div>
+  </div>
+
+  <form th:method="POST" th:action="@{/bookReservation}">
+    <div class="col mb-3">
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <a href="/books/add-form" class="btn btn-block btn-dark add-product-btn">
+            Add new Book
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <h2>Choose a book:</h2>
+      <select name="title" class="form-control">
+        <option th:each="book : ${books}" th:text="${book.getTitle()}" th:value="${book.getTitle()}"></option>
+      </select>
+    </div>
     <!-- Display radio buttons for each book,
          the value should be the book title
          and the displayed text should be:
          Title: <book_title>, Genre: <book_genre>, Rating: <average_rating> -->
-    <div th:each="book : ${books}">
-       <input type="radio" name="title" th:value="${book.getTitle()}" th:text="'Title: '+${book.getTitle()}+', Genre:' + ${book.getGenre()}+', Rating: '+${book.getAverageRating()}"><br/>
-    </div>
+
+
     <h2>Enter your information:</h2>
     <label>Your Name:</label>
     <input type="text" name="readerName" required><br/>
