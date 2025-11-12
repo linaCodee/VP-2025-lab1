@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add-Form</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-5"> <!--@{/books/save}-->
+      <form th:action="@{${book==null ? '/books' : '/books/'+book.id}}" method="post">
+        <input id="id" type="hidden" name="id" th:value="${book!=null ? book.id : ''}">
+        <div class="form-group">
+          <label for="title">Book title</label>
+          <input type="text" id="title" name="title" th:value="${book!=null ? book.title : ''}" placeholder="You must enter a book title">
+        </div>
+        <div class="form-group">
+          <label for="genre">Genre</label>
+          <input type="text" id="genre" name="genre" th:value="${book!=null ? book.genre : ''}" placeholder="You must enter a book genre">
+        </div>
+        <div class="form-group">
+          <label for="averageRating">Average rating:</label>
+          <input type="number" min="0" max="5" step="0.1" id="averageRating" name="averageRating" th:value="${book!=null ? book.averageRating : ''}" placeholder="You must enter average rating">
+        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="dateCreated">Date</label>-->
+<!--          <input type="date" id="dateCreated" name="dateCreated" th:value="${book!=null && book.dateCreated!=numCopies ? book.dateCreated : ''}">-->
+<!--        </div>-->
+        <div class="form-group">
+          <label for="authorId">Author</label>
+
+          <select name="authorId" multiple size="5" id="authorId">
+            <option
+                    th:each="a:${authors}"
+                    th:text="${a.getName}+' '+${a.getSurname}"
+                    th:value="${a.id}"
+
+            >
+            </option>
+          </select>
+<!--          <select name="bookCover" id="bookCover">-->
+<!--            <option-->
+<!--                    th:each="b:${bookCovers}"-->
+<!--                    th:text="${b}"-->
+<!--                    th:value="${b}"-->
+<!--                    th:selected="${book?.bookCover == b}"-->
+<!--            >-->
+<!--            </option>-->
+<!--          </select>-->
+        </div>
+        <a type="button" class="btn btn-primary" href="/books">Back</a>
+        <button id="submit" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
