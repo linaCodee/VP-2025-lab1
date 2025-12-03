@@ -2,15 +2,13 @@ package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.Author;
 import mk.ukim.finki.wp.lab.model.Book;
-import mk.ukim.finki.wp.lab.model.enums.BookCover;
 import mk.ukim.finki.wp.lab.model.exceptions.BookNotFoundException;
-import mk.ukim.finki.wp.lab.repository.BookRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.BookRepository;
+import mk.ukim.finki.wp.lab.repository.mock.InMemoryBookRepository;
 import mk.ukim.finki.wp.lab.service.AuthorService;
 import mk.ukim.finki.wp.lab.service.BookService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,14 +26,18 @@ public class BookServiceImpl implements BookService {
         return this.bookRepository.findAll();
     }
 
-    @Override
-    public List<Book> searchBooks(String text, double rating) {
-        return this.bookRepository.searchBooks(text,rating);
-    }
+//    @Override
+//    public List<Book> searchBooks(String text, double rating) {
+//        return this.bookRepository.searchBooks(text,rating);
+//    }
 
     @Override
+    public List<Book> searchBooks(Long authorId) {
+        return this.bookRepository.findAllByAuthor_Id(authorId);
+    }
+    @Override
     public void delete(Long id) {
-        this.bookRepository.delete(id);
+        this.bookRepository.deleteById(id);
     }
 
     @Override

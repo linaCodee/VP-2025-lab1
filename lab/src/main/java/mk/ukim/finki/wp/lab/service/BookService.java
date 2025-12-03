@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface BookService {
     List<Book> listAll();
-    List<Book> searchBooks(String text, double rating);
+   // List<Book> searchBooks(String text, double rating);
+    List<Book> searchBooks(Long authorId);
     void delete(Long id);
     Book findById(Long id);
     Book update(Long id,

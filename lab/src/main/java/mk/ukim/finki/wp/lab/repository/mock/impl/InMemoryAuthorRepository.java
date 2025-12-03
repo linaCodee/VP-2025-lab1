@@ -1,16 +1,14 @@
-package mk.ukim.finki.wp.lab.repository.impl;
+package mk.ukim.finki.wp.lab.repository.mock.impl;
 
-import lombok.Data;
 import mk.ukim.finki.wp.lab.bootstrap.DataHolder;
 import mk.ukim.finki.wp.lab.model.Author;
-import mk.ukim.finki.wp.lab.repository.AuthorRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class InMemoryAuthorRepository implements AuthorRepository {
+public class InMemoryAuthorRepository implements mk.ukim.finki.wp.lab.repository.mock.InMemoryAuthorRepository {
 
     @Override
     public List<Author> findAll() {

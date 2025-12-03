@@ -2,15 +2,15 @@ package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.BookReservation;
 import mk.ukim.finki.wp.lab.model.exceptions.InvalidBookReservation;
-import mk.ukim.finki.wp.lab.repository.BookReservationRepository;
+import mk.ukim.finki.wp.lab.repository.mock.InMemoryBookReservationRepository;
 import mk.ukim.finki.wp.lab.service.BookReservationService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookReservationServiceImpl implements BookReservationService {
-    private final BookReservationRepository bookReservationRepository;
+    private final InMemoryBookReservationRepository bookReservationRepository;
 
-    public BookReservationServiceImpl(BookReservationRepository bookReservationRepository) {
+    public BookReservationServiceImpl(InMemoryBookReservationRepository bookReservationRepository) {
         this.bookReservationRepository = bookReservationRepository;
     }
 

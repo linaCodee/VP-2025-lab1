@@ -37,11 +37,21 @@
   </li>
 
   <form th:action="@{/books}" th:method="GET">
+<!--    <label>-->
+<!--      <input type="text" th:value="${title}" name="title" placeholder="Search book by title">-->
+<!--    </label>-->
+<!--    <label>-->
+<!--      <input type="text" th:value="${rating}" name="rating" placeholder="Search book by rating">-->
+<!--    </label>-->
     <label>
-      <input type="text" th:value="${title}" name="title" placeholder="Search book by title">
-    </label>
-    <label>
-      <input type="text" th:value="${rating}" name="rating" placeholder="Search book by rating">
+        <select id="authorId" name="authorId">
+            <option value="">Select Author</option>
+            <option th:each="author : ${authors}"
+                    th:value="${author.id}"
+                    th:text="${author.name} + ' ' + ${author.surname}"
+                    th:selected="${authorId} == ${author.id}">
+            </option>        </select>
+      <input type="text" th:value="${authorId}" name="authorId" placeholder="Search books by author id">
     </label>
     <br>
     <button type="submit">Search</button>

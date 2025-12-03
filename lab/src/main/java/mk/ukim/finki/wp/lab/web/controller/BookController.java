@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.lab.web.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import mk.ukim.finki.wp.lab.model.Author;
 import mk.ukim.finki.wp.lab.model.Book;
 import mk.ukim.finki.wp.lab.model.enums.BookCover;
 import mk.ukim.finki.wp.lab.service.AuthorService;
@@ -28,22 +29,42 @@ public class BookController {
         this.bookService = bookService;
         this.authorService = authorService;
     }
+//    @GetMapping()
+//    public String getBooksPage(@RequestParam(required = false) String error, @RequestParam(required = false) String title, @RequestParam(required = false) Integer rating, Model model, HttpServletRequest req){
+//        if (error!=null){
+//            model.addAttribute("error",error);
+//        }
+//        List<Book> books=bookService.listAll();
+//        if ((title!=null && !title.isBlank()) || rating!=null){
+//            books=bookService.searchBooks(title,rating);
+//        }
+//        else {
+//            books=bookService.listAll();
+//        }
+//
+//        model.addAttribute("books",books);
+//        model.addAttribute("title",title);
+//        model.addAttribute("rating",rating);
+//        return "listBooks";
+//    }
+
     @GetMapping()
-    public String getBooksPage(@RequestParam(required = false) String error, @RequestParam(required = false) String title, @RequestParam(required = false) Integer rating, Model model, HttpServletRequest req){
+    public String getBooksPage(@RequestParam(required = false) String error, @RequestParam(required = false) Long authorId, Model model, HttpServletRequest req){
         if (error!=null){
             model.addAttribute("error",error);
         }
-        List<Book> books=bookService.listAll();
-        if ((title!=null && !title.isBlank()) || rating!=null){
-            books=bookService.searchBooks(title,rating);
+        List<Book> books;
+        if (authorId!=null){
+            books=bookService.searchBooks(authorId);
         }
         else {
             books=bookService.listAll();
         }
 
+        List<Author> authors=authorService.findAll();
+        model.addAttribute("authors",authors);
         model.addAttribute("books",books);
-        model.addAttribute("title",title);
-        model.addAttribute("rating",rating);
+        model.addAttribute("authorId",authorId);
         return "listBooks";
     }
     @PostMapping("/delete/{id}")
@@ -53,8 +74,9 @@ public class BookController {
     }
     @GetMapping("/add-form")
     public String addProductPage(Model model){
+        List<Author> authors=authorService.findAll();
         model.addAttribute("bookCovers",BookCover.values());
-        model.addAttribute("authors",authorService.findAll());
+        model.addAttribute("authors",authors);
         return "add-form";
     }
 

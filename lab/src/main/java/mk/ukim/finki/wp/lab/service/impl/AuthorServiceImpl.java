@@ -2,7 +2,8 @@ package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.Author;
 import mk.ukim.finki.wp.lab.model.exceptions.AuthorNotFoundException;
-import mk.ukim.finki.wp.lab.repository.AuthorRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.AuthorRepository;
+import mk.ukim.finki.wp.lab.repository.mock.InMemoryAuthorRepository;
 import mk.ukim.finki.wp.lab.service.AuthorService;
 import org.springframework.stereotype.Service;
 

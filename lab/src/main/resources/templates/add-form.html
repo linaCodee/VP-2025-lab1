@@ -29,7 +29,7 @@
         <div class="form-group">
           <label for="authorId">Author</label>
 
-          <select name="authorId" multiple size="5" id="authorId">
+          <select name="authorId" id="authorId"> <!--multiple size="5"-->
             <option
                     th:each="a:${authors}"
                     th:text="${a.getName}+' '+${a.getSurname}"
