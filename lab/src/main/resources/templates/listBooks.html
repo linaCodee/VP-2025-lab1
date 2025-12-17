@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
   <meta charset="utf-8">
   <title>Book Reservation - Welcome and choose a Book</title>
   <style type="text/css">
@@ -31,10 +31,16 @@
   <h1>Welcome to our Book Reservation App</h1>
 </header>
 <main>
-  <h2>Recently viewed:</h2>
-  <li th:each="lastViewedBook : ${lastVisitedBooks}"
-      th:text="'Title: ' + ${lastViewedBook.title} + ', Genre: ' + ${lastViewedBook.genre} + ', Rating: ' + ${lastViewedBook.averageRating}">
-  </li>
+    <form sec:authorize="!isAnonymous()"
+            th:action="@{/logout}"
+    method="post"
+    style="margin-bottom: 15px">
+        <button type="submit">Logout</button>
+    </form>
+<!--  <h2>Recently viewed:</h2>-->
+<!--  <li th:each="lastViewedBook : ${lastVisitedBooks}"-->
+<!--      th:text="'Title: ' + ${lastViewedBook.title} + ', Genre: ' + ${lastViewedBook.genre} + ', Rating: ' + ${lastViewedBook.averageRating}">-->
+<!--  </li>-->
 
   <form th:action="@{/books}" th:method="GET">
 <!--    <label>-->
@@ -65,13 +71,13 @@
     </div>
     <div style="align-items: center; flex-shrink: 0; display: flex; gap: 5px">
     <form th:action="@{/books/delete/{id}(id=${book.id})}" th:method="POST">
-      <button class="btn-danger" type="submit">Delete</button>
+      <button sec:authorize="hasRole('ADMIN')" class="btn-danger" type="submit" >Delete</button>
     </form>
 <!--      <form th:action="@{/books/like/{id}(id=${book.id})}" th:method="post">-->
 <!--        <button type="submit">Like(<span th:text="${book.getLikes()}"></span>)</button>-->
 <!--      </form>-->
     <th:block>
-      <a class="btn btn-sm btn-info edit-book" th:href="@{'/books/edit-form/{id}' (id=${book.id})}">
+      <a sec:authorize="hasRole('ADMIN')" class="btn btn-sm btn-info edit-book" th:href="@{'/books/edit-form/{id}' (id=${book.id})}">
         Edit
       </a>
     </th:block>
@@ -82,7 +88,7 @@
     <div class="col mb-3">
       <div class="row">
         <div class="col-sm-12 col-md-12">
-          <a href="/books/add-form" class="btn btn-block btn-dark add-product-btn">
+          <a sec:authorize="hasRole('ADMIN')" href="/books/add-form" class="btn btn-block btn-dark add-product-btn">
             Add new Book
           </a>
         </div>
@@ -111,6 +117,7 @@
     <br/>
     <input type="submit" value="Reserve Book">
   </form>
+
 </main>
 </body>
 </html>
